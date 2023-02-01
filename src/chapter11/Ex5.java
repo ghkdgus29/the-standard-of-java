@@ -2,9 +2,9 @@ package chapter11;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.Comparator;
 
-class Student implements Comparable{
+class Student implements Comparable<Student> {
     String name;
     int ban;
     int no;
@@ -33,28 +33,29 @@ class Student implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (o instanceof Student2) {
-            Student2 s = (Student2) o;
-            return this.name.compareTo(s.name);
-        }
-        return -1;
+    public int compareTo(Student s) {
+        return this.name.compareTo(s.name);
+    }
+}
+
+class BanAscending implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        return s1.ban - s2.ban;
     }
 }
 
 public class Ex5 {
     public static void main(String[] args) {
-        ArrayList list = new ArrayList();
-        list.add(new Student2("홍길동", 1, 1, 100, 100, 100));
-        list.add(new Student2("남궁성", 1, 2, 90, 70, 80));
-        list.add(new Student2("김자바", 1, 3, 80, 80, 90));
-        list.add(new Student2("이자바", 1, 4, 70, 90, 70));
-        list.add(new Student2("안자바", 1, 5, 60, 100, 80));
+        ArrayList<Student> list = new ArrayList<>();
+        list.add(new Student("홍길동", 7, 1, 100, 100, 100));
+        list.add(new Student("남궁성", 2, 2, 90, 70, 80));
+        list.add(new Student("김자바", 1, 3, 80, 80, 90));
+        list.add(new Student("이자바", 3, 4, 70, 90, 70));
+        list.add(new Student("안자바", 1, 5, 60, 100, 80));
 
-        Collections.sort(list);
-        Iterator it = list.iterator();
-        while (it.hasNext())
-            System.out.println(it.next());
+        Collections.sort(list, new BanAscending());
+        for (Student student : list) System.out.println(student);
     }
 }
 
